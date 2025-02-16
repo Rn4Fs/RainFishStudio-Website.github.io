@@ -23,6 +23,7 @@
         let isVisible = true;
         let rainInterval = null;
         const fixedRainCount = 50;
+        let activeRaindrops = [];
 
         function resizeSVG() {
             svg.setAttribute('width', window.innerWidth);
@@ -93,6 +94,7 @@
             line.setAttribute('stroke-width', '1');
             line.setAttribute('opacity', opacity);
             svg.appendChild(line);
+            activeRaindrops.push(line);
             animateRaindrop(line);
         }
 
@@ -108,6 +110,7 @@
                 line.setAttribute('y2', y2);
                 if (y1 > window.innerHeight) {
                     svg.removeChild(line);
+                    activeRaindrops = activeRaindrops.filter(r => r !== line);
                 } else {
                     requestAnimationFrame(animate);
                 }
@@ -117,6 +120,7 @@
 
         function startRain() {
             if (rainInterval) clearInterval(rainInterval);
+            clearRain();
             rainInterval = setInterval(() => {
                 for (let i = 0; i < fixedRainCount; i++) {
                     createRaindrop();
@@ -124,9 +128,15 @@
             }, 200);
         }
 
+        function clearRain() {
+            activeRaindrops.forEach(drop => svg.removeChild(drop));
+            activeRaindrops = [];
+        }
+
         function pauseRain() {
             clearInterval(rainInterval);
             rainInterval = null;
+            clearRain();
         }
 
         document.addEventListener('visibilitychange', () => {
