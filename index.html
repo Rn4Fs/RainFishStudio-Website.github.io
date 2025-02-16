@@ -22,7 +22,7 @@
         const svg = document.getElementById('rain');
         let isVisible = true;
         let rainInterval = null;
-        let activeRaindrops = [];
+        const fixedRainCount = 50;
 
         function resizeSVG() {
             svg.setAttribute('width', window.innerWidth);
@@ -79,10 +79,71 @@
             svg.appendChild(fishGroup);
         }
 
+        function createRaindrop() {
+            const x = Math.random() * window.innerWidth;
+            const y = -10;
+            const length = 20;
+            const opacity = Math.random() * 0.5 + 0.2;
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x);
+            line.setAttribute('y1', y);
+            line.setAttribute('x2', x);
+            line.setAttribute('y2', y + length);
+            line.setAttribute('stroke', '#00a8ff');
+            line.setAttribute('stroke-width', '1');
+            line.setAttribute('opacity', opacity);
+            svg.appendChild(line);
+            animateRaindrop(line);
+        }
+
+        function animateRaindrop(line) {
+            let y1 = parseFloat(line.getAttribute('y1'));
+            let y2 = parseFloat(line.getAttribute('y2'));
+            const speed = 2 + Math.random() * 3;
+            function animate() {
+                if (!isVisible) return;
+                y1 += speed;
+                y2 += speed;
+                line.setAttribute('y1', y1);
+                line.setAttribute('y2', y2);
+                if (y1 > window.innerHeight) {
+                    svg.removeChild(line);
+                } else {
+                    requestAnimationFrame(animate);
+                }
+            }
+            animate();
+        }
+
+        function startRain() {
+            if (rainInterval) clearInterval(rainInterval);
+            rainInterval = setInterval(() => {
+                for (let i = 0; i < fixedRainCount; i++) {
+                    createRaindrop();
+                }
+            }, 200);
+        }
+
+        function pauseRain() {
+            clearInterval(rainInterval);
+            rainInterval = null;
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                isVisible = false;
+                pauseRain();
+            } else {
+                isVisible = true;
+                startRain();
+            }
+        });
+
         window.addEventListener('resize', resizeSVG);
 
         resizeSVG();
         drawFish();
+        startRain();
     </script>
 </body>
 </html>
