@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainfall with Fish</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a1a;
+        }
+        svg {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <svg id="rain"></svg>
+
+    <script>
+        const svg = document.getElementById('rain');
+        let isVisible = true;
+        let rainInterval = null;
+        let activeRaindrops = [];
+
+        function resizeSVG() {
+            svg.setAttribute('width', window.innerWidth);
+            svg.setAttribute('height', window.innerHeight);
+            drawFish();
+        }
+
+        function drawFish() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const fishSize = Math.min(window.innerWidth, window.innerHeight) / 6;
+
+            const oldFish = document.getElementById('fish');
+            if (oldFish) svg.removeChild(oldFish);
+
+            const fishGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            fishGroup.setAttribute('id', 'fish');
+
+            // Fish body outline
+            const body = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            body.setAttribute('d', `
+                M ${centerX - fishSize} ${centerY} 
+                Q ${centerX} ${centerY - fishSize / 1.5}, ${centerX + fishSize} ${centerY} 
+                Q ${centerX} ${centerY + fishSize / 1.5}, ${centerX - fishSize} ${centerY} Z
+            `);
+            body.setAttribute('fill', 'none');
+            body.setAttribute('stroke', 'white');
+            body.setAttribute('stroke-width', '2');
+
+            // Fish tail (triangle)
+            const tail = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            tail.setAttribute('points', `
+                ${centerX + fishSize},${centerY} 
+                ${centerX + fishSize * 1.5},${centerY - fishSize / 3} 
+                ${centerX + fishSize * 1.5},${centerY + fishSize / 3}
+            `);
+            tail.setAttribute('fill', 'none');
+            tail.setAttribute('stroke', 'white');
+            tail.setAttribute('stroke-width', '2');
+            
+            // Fish gill (curve)
+            const gill = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            gill.setAttribute('d', `
+                M ${centerX - fishSize / 3} ${centerY - fishSize / 4} 
+                Q ${centerX - fishSize / 1.8} ${centerY}, ${centerX - fishSize / 3} ${centerY + fishSize / 4}
+            `);
+            gill.setAttribute('stroke', 'white');
+            gill.setAttribute('stroke-width', '2');
+            gill.setAttribute('fill', 'none');
+
+            fishGroup.appendChild(body);
+            fishGroup.appendChild(tail);
+            fishGroup.appendChild(gill);
+            svg.appendChild(fishGroup);
+        }
+
+        window.addEventListener('resize', resizeSVG);
+
+        resizeSVG();
+        drawFish();
+    </script>
+</body>
+</html>
