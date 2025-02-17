@@ -34,7 +34,7 @@
 
         function adjustRainDensity() {
             const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
-            fixedRainCount = Math.max(100, Math.floor(800 * scale)); // 让雨滴数量随缩放比例调整，最少50个
+            fixedRainCount = Math.max(100, Math.floor(400 * scale)); // 让雨滴数量随缩放比例调整，最少50个
             startRain();
         }
 
