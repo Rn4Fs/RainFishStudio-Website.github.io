@@ -34,8 +34,9 @@
         }
 
         function adjustRainDensity() {
-            const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
-            fixedRainCount = Math.max(100, Math.floor(400 * scale)); // 让雨滴数量随缩放比例调整，最少50个
+            //const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
+            const scale = Math.max(window.innerWidth / 800, window.innerHeight / 800);
+            fixedRainCount = Math.max(100, Math.floor(1400 * scale)); // 让雨滴数量随缩放比例调整，最少50个
             startRain();
         }
 
@@ -43,8 +44,9 @@
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
             //const fishSize = Math.min(window.innerWidth, window.innerHeight) / 6;
-            const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
-            const fishSize = (Math.min(window.innerWidth, window.innerHeight) / 6) * scale;
+            //const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
+            const scale = Math.max(window.innerWidth / 800, window.innerHeight / 800);
+            const fishSize = (Math.min(window.innerWidth, window.innerHeight) / 4) * scale;
 
             const oldFish = document.getElementById('fish');
             if (oldFish) svg.removeChild(oldFish);
@@ -94,7 +96,9 @@
             if (activeRaindrops.length >= fixedRainCount) return;
             const x = Math.random() * window.innerWidth;
             const y = -10;
-            const length = 44;
+            //const length = 44;
+            const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
+            const length = 44 * scale;
             const opacity = Math.random() * 0.5 + 0.2;
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             line.setAttribute('x1', x);
@@ -136,7 +140,7 @@
                 if (activeRaindrops.length < fixedRainCount) {
                     createRaindrop();
                 }
-            }, 200);
+            }, 100);
         }
 
         function pauseRain() {
