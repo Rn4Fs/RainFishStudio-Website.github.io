@@ -30,6 +30,7 @@
             svg.setAttribute('height', window.innerHeight);
             drawFish();
             adjustRainDensity();
+            if (!rainInterval) startRain();
         }
 
         function adjustRainDensity() {
