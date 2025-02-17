@@ -46,7 +46,7 @@
             //const fishSize = Math.min(window.innerWidth, window.innerHeight) / 6;
             //const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
             const scale = Math.max(window.innerWidth / 800, window.innerHeight / 800);
-            const fishSize = (Math.min(window.innerWidth, window.innerHeight) / 8) * scale;
+            const fishSize = (Math.min(window.innerWidth, window.innerHeight) / 4) / scale;
 
             const oldFish = document.getElementById('fish');
             if (oldFish) svg.removeChild(oldFish);
