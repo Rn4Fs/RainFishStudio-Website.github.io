@@ -34,7 +34,7 @@
 
         function adjustRainDensity() {
             const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
-            fixedRainCount = Math.max(100, Math.floor(300 * scale)); // 让雨滴数量随缩放比例调整，最少50个
+            fixedRainCount = Math.max(100, Math.floor(800 * scale)); // 让雨滴数量随缩放比例调整，最少50个
             startRain();
         }
 
@@ -129,11 +129,10 @@
 
         function startRain() {
             if (rainInterval) clearInterval(rainInterval);
-            while (activeRaindrops.length < fixedRainCount) {
-                createRaindrop();
-            }
             rainInterval = setInterval(() => {
-                createRaindrop();
+                if (activeRaindrops.length < fixedRainCount) {
+                    createRaindrop();
+                }
             }, 200);
         }
 
