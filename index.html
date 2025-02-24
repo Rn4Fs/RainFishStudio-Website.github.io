@@ -37,7 +37,7 @@
         function adjustRainDensity() {
             //const scale = Math.min(window.innerWidth / 800, window.innerHeight / 800);
             const scale = Math.max(window.innerWidth / 800, window.innerHeight / 800);
-            fixedRainCount = Math.max(100, Math.floor(1400 * scale)); // 让雨滴数量随缩放比例调整，最少50个
+            fixedRainCount = Math.max(84, Math.floor(140 * scale)); // 让雨滴数量随缩放比例调整，最少50个
             startRain();
         }
 
@@ -64,7 +64,7 @@
             `);
             body.setAttribute('fill', 'none');
             body.setAttribute('stroke', 'white');
-            body.setAttribute('stroke-width', '2');
+            body.setAttribute('stroke-width', '4');
 
             // Fish tail (triangle)
             const tail = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
